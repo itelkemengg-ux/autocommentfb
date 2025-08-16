@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "puppeteer": "^22.12.1",
-    "node-fetch": "^2.7.0"
+    "node-fetch": "^2.7.0",
+    "bytenode": "^1.4.0"
   }
 }
