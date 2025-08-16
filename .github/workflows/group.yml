@@ -1,20 +1,26 @@
 name: Facebook Group Comment Bot
 
 on:
+  # Memungkinkan Anda menjalankan bot secara manual dari tab "Actions"
   workflow_dispatch:
+  
+  # Menjalankan bot secara otomatis sesuai jadwal
   schedule:
+    # Contoh: Jalankan setiap 6 jam sekali
     - cron: '0 */6 * * *'
 
 jobs:
   run-bot:
     runs-on: ubuntu-latest
     
+    # Memberikan izin kepada workflow untuk menulis (commit & push) ke repository
     permissions:
       contents: write
 
     steps:
       - name: 1. Checkout Repository
         uses: actions/checkout@v4
+        # Menggunakan token khusus agar bisa melakukan push
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -24,18 +30,17 @@ jobs:
           node-version: '18'
 
       - name: 3. Install Dependencies
+        # Pastikan Anda sudah menjalankan "npm install node-fetch" secara lokal
         run: npm install
 
-      - name: 4. Compile group.js with Bytenode
-        run: npx bytenode --compile group.js
-
-      - name: 5. Run the Group Bot
-        run: node -r bytenode group.jsc
+      - name: 4. Run the Group Bot
+        run: npm run start:group
         env:
+          # Mengambil cookies dan email lisensi dari GitHub Secrets
           FACEBOOK_COOKIES: ${{ secrets.FACEBOOK_COOKIES }}
           BOT_LICENSE_EMAIL: ${{ secrets.BOT_LICENSE_EMAIL }}
 
-      - name: 6. Commit and Push Group Log File
+      - name: 5. Commit and Push Group Log File
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
@@ -44,6 +49,7 @@ jobs:
 
           if [ -s $LOG_FILE ]; then
             git add $LOG_FILE
+            # Hanya commit jika ada perubahan yang siap di-commit
             if ! git diff --staged --quiet; then
               git commit -m "Update group comment log ($LOG_FILE)"
               git push
@@ -54,7 +60,8 @@ jobs:
             echo "$LOG_FILE kosong atau tidak ada, tidak di-commit."
           fi
       
-      - name: 7. Upload Debug Screenshots
+      - name: 6. Upload Debug Screenshots
+        # Selalu jalankan langkah ini, meskipun bot gagal, untuk membantu debugging
         if: always()
         uses: actions/upload-artifact@v4
         with:
