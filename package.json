@@ -4,12 +4,12 @@
   "description": "Bot untuk auto komen di Facebook via GitHub Actions.",
   "main": "index.js",
   "scripts": {
-    "start:video": "node index.js",
-    "start:group": "node group.js"
+    "start:video": "node bot/autokomenvideo.js",
+    "start:group": "node bot/autokomengroup.js",
+    "start:postgroup": "node bot/postgroup.js"
   },
   "dependencies": {
     "puppeteer": "^22.12.1",
-    "node-fetch": "^2.7.0",
-    "bytenode": "^1.4.0"
+    "node-fetch": "^2.7.0"
   }
 }
