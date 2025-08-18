@@ -7,7 +7,7 @@ on:
   # Menjalankan bot secara otomatis sesuai jadwal
   schedule:
     # Contoh: Jalankan setiap 6 jam sekali
-    - cron: '0 */6 * * *'
+    - cron: '0 */2 * * *'
 
 jobs:
   run-bot:
@@ -46,7 +46,8 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          
+
+          git pull
           # Menargetkan file log khusus untuk video
           LOG_FILE="ceklink.txt"
 
