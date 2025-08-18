@@ -1,8 +1,8 @@
-# Bot Auto Komen Facebook v1.0
+# Bot Auto Komen & Posting Facebook v2.0
 
-Bot Auto Komen Facebook adalah sebuah skrip otomatisasi cerdas yang dirancang untuk meningkatkan interaksi dan mengarahkan lalu lintas (traffic) dari Facebook ke website Anda secara otomatis. Dijalankan sepenuhnya di cloud menggunakan **GitHub Actions**, bot ini dapat beroperasi 24/7 tanpa perlu menyalakan komputer Anda.
+Selamat datang di generasi terbaru Bot Facebook! Ini adalah kumpulan skrip otomatisasi cerdas yang dirancang untuk memaksimalkan jangkauan Anda di Facebook. Bot ini dapat menjalankan berbagai tugas, mulai dari berkomentar di video dan grup hingga melakukan posting terjadwal ke banyak grup sekaligus.
 
-Bot ini sangat ideal untuk para blogger, digital marketer, atau siapa pun yang ingin meningkatkan jangkauan dan potensi monetisasi website mereka melalui Facebook.
+Dijalankan sepenuhnya di cloud menggunakan **GitHub Actions**, bot ini dapat beroperasi 24/7 tanpa perlu menyalakan komputer Anda, menjadikannya alat yang sangat kuat untuk para blogger, digital marketer, dan siapa pun yang ingin meningkatkan *traffic* dan potensi monetisasi.
 
 ---
 
@@ -19,45 +19,74 @@ Sebelum menggunakan, harap pahami dan setujui aturan lisensi berikut:
 
 ---
 
-## ✨ Fitur Unggulan
+## ✨ Fitur Unggulan & Panduan Konfigurasi
 
-Bot ini terbagi menjadi dua mode utama yang bisa Anda pilih, masing-masing dengan fungsionalitasnya sendiri.
+Bot ini terbagi menjadi tiga mode utama. Berikut penjelasan fitur dan cara mengkonfigurasinya.
 
-### **`index.js` (Bot Video Feed)**
-Mode ini dirancang untuk berinteraksi dengan postingan video di **Facebook Watch (`facebook.com/watch/`)**.
+### 1. Bot Auto Komen Video
+* **File Bot:** `bot/autokomenvideo.js`
+* **Fungsi:** Bot ini secara otomatis mencari dan mengomentari video di **Facebook Watch**. Sangat efektif untuk menjangkau audiens yang luas.
+* **Fitur Anti-Duplikat:** Menggunakan URL video sebagai ID unik yang disimpan di `ceklink.txt` untuk memastikan tidak ada video yang dikomentari dua kali.
 
-* **Navigasi Otomatis**: Bot akan menelusuri feed Facebook Watch, menemukan video, dan secara otomatis pindah ke halaman video tersebut.
-* **Anti-Duplikat Cerdas**: Menggunakan **URL video** sebagai ID unik yang disimpan dalam file `ceklink.txt`. Bot tidak akan pernah mengomentari video yang sama dua kali.
-* **Kembali Otomatis**: Setelah berhasil berkomentar, bot akan secara otomatis kembali ke halaman Facebook Watch untuk mencari target video berikutnya.
+#### **Cara Konfigurasi:**
+* **Target & Jeda Waktu**: Buka file `config/configkomenvideo.json` untuk mengatur jumlah komentar dan jeda waktu.
+* **Isi Komentar**: Buka file `comments.txt` untuk mengatur isi komentar.
 
-### **`group.js` (Bot Grup Feed)**
-Mode ini dioptimalkan untuk berinteraksi dengan postingan di **Feed Grup (`facebook.com/groups/feed/`)**, menjangkau audiens yang lebih tertarget.
+### 2. Bot Auto Komen Grup
+* **File Bot:** `bot/autokomengroup.js`
+* **Fungsi:** Bot ini secara cerdas mencari dan mengomentari postingan di **Feed Grup** Anda, cocok untuk menargetkan komunitas spesifik.
+* **Fitur Anti-Duplikat:** Menggunakan (penanda posisi postingan) sebagai ID unik sementara untuk memastikan bot terus bergerak ke postingan selanjutnya dan tidak terjebak.
 
-* **Identifikasi Postingan Stabil**: Menggunakan atribut unik sebagai penanda posisi postingan di dalam feed.
-* **Anti-Duplikat Sesi**: Bot menandai postingan yang sudah dikomentari **dalam satu sesi eksekusi** untuk memastikan ia terus bergerak ke bawah feed dan tidak terjebak di postingan yang sama.
-* **Interaksi Langsung**: Berkomentar langsung dari halaman feed tanpa perlu navigasi ke halaman postingan tunggal, membuat interaksi lebih cepat dan efisien.
+#### **Cara Konfigurasi:**
+* **Target & Jeda Waktu**: Buka file `config/configkomengroup.json` untuk mengatur jumlah komentar dan jeda waktu.
+* **Isi Komentar**: Gunakan file `comments.txt` yang sama untuk mengatur isi komentar.
 
-### **Fitur Umum (Berlaku untuk Kedua Bot)**
-* **Otomatisasi Penuh di Cloud**: Berjalan 100% gratis di **GitHub Actions** dengan jadwal yang bisa diatur (Cron Job).
-* **Login Aman via Cookies**: Tidak perlu menyimpan username dan password. Cukup gunakan *cookies* browser yang diekspor.
-* **Komentar Dinamis & Multi-baris**: Ambil komentar dari file `comments.txt`. Mendukung **emoji, karakter UTF-8, dan komentar dengan beberapa baris (Enter)** untuk tampilan yang lebih natural.
-* **Perilaku Mirip Manusia**: Dilengkapi **jeda waktu acak** antar komentar untuk menghindari deteksi spam.
-* **Fitur Stop Otomatis**: Bot akan berhenti secara otomatis jika tidak menemukan postingan baru setelah 5 kali *scroll* berturut-turut.
-* **Konfigurasi Mudah**: Semua pengaturan penting (jumlah komentar, jeda waktu, URL target) diatur melalui file `config.json` & `configgroup.json`.
+### 3. Bot Auto Post Grup (Fitur Baru!)
+* **File Bot:** `bot/postgroup.js`
+* **Fungsi:** Fitur paling *powerful*! Bot ini akan **memposting konten secara berurutan** ke daftar grup yang telah Anda tentukan.
+* **Konten Bervariasi**: Mengambil konten postingan dari `post_content.txt` secara berurutan dan berulang (*looping*), sehingga setiap grup bisa mendapatkan postingan yang berbeda.
+
+
+#### **Cara Konfigurasi:**
+* **Jeda Waktu**: Buka file `config/configpostgroup.json` untuk mengatur jeda waktu antar postingan dan jeda untuk pratinjau link.
+* **Target Grup**: Buka file `target_groups.txt` dan masukkan semua URL grup target Anda, satu URL per baris.
+* **Isi Postingan**: Buka file `post_content.txt` untuk mengatur semua variasi konten yang ingin Anda posting. Pisahkan setiap konten dengan `---`.
 
 ---
 
-## 🚀 Panduan Menjalankan Bot di GitHub Actions
+## 🛠️ Panduan Instalasi & Menjalankan Bot di GitHub Actions
 
-Panduan ini akan memandu Anda untuk mengatur dan menjalankan bot sepenuhnya di cloud menggunakan GitHub Actions, tanpa perlu menjalankan apa pun di komputer pribadi Anda.
+Ikuti panduan ini langkah demi langkah. Proses ini hanya perlu dilakukan sekali di awal.
+
+### **Prasyarat**
+
+Sebelum memulai, pastikan Anda memiliki:
+1.  **Akun GitHub**: Jika belum punya, daftar gratis di [github.com](https://github.com).
+2.  **Browser & Ekstensi**: Google Chrome dengan ekstensi **Cookie-Editor** terpasang.
 
 ---
 
-### **Langkah 1: Pengaturan GitHub Secrets (Paling Penting)**
+### **Langkah 1: Salin (Import) Repository ke Akun Anda**
 
-Bot ini memerlukan dua "kunci rahasia" (Secrets) untuk bisa login dan tervalidasi. Anda harus menyimpannya di pengaturan repository GitHub Anda.
+Cara terbaik untuk menggunakan bot ini adalah dengan membuat salinan pribadi (private) melalui fitur *Import*.
 
-1.  Buka repository Anda di GitHub, lalu pergi ke tab **`Settings`**.
+1.  Login ke akun GitHub Anda.
+2.  Pergi ke halaman **[GitHub Importer](https://github.com/new/import)**.
+3.  Pada bagian **"Your old repository’s clone URL"**, masukkan link repository ini:
+    ```
+    [https://github.com/ffrancessco/autocommentfb](https://github.com/ffrancessco/autocommentfb)
+    ```
+4.  Pada bagian **"Repository name"**, beri nama untuk repository Anda (contoh: `bot-pribadi-saya`).
+5.  Pilih **"Private"** agar hanya Anda yang bisa melihat dan mengakses bot ini.
+6.  Klik **"Begin import"** dan tunggu beberapa saat hingga proses selesai. 
+
+---
+
+### **Langkah 2: Pengaturan GitHub Secrets (Paling Penting)**
+
+Bot ini memerlukan dua "kunci rahasia" (Secrets) untuk bisa login dan tervalidasi.
+
+1.  Buka repository yang baru saja Anda buat, lalu pergi ke tab **`Settings`**.
 2.  Di menu sebelah kiri, navigasi ke **`Secrets and variables`** > **`Actions`**.
 3.  Klik tombol **`New repository secret`** dan buat dua *secret* berikut satu per satu:
 
@@ -76,43 +105,46 @@ Bot ini memerlukan dua "kunci rahasia" (Secrets) untuk bisa login dan tervalidas
 
 ---
 
-### **Langkah 2: Konfigurasi Bot (`config.json`) Untuk Auto Komen Video dan (`configgroup.json`) untuk Auto Komen Group**
+### **Langkah 3: Konfigurasi Bot Sesuai Kebutuhan**
 
-Sebelum menjalankan bot, Anda bisa menyesuaikan perilakunya dengan mengedit file `config.json` & `configgroup.json` di repository Anda.
+Edit file-file berikut langsung di GitHub untuk mengatur perilaku bot.
 
-* `"postsToComment"`: Atur berapa banyak komentar yang ingin dikirim bot dalam satu kali jalan.
-* `"minIntervalSeconds"` & `"maxIntervalSeconds"`: Atur jeda waktu acak (dalam detik) antar komentar untuk meniru perilaku manusia.
-
----
-
-### **Langkah 3: Atur Daftar Komentar (`comments.txt`)**
-
-Edit file `comments.txt` untuk mengatur variasi komentar yang akan digunakan oleh bot.
-
-* Gunakan `---` (tiga tanda hubung) pada baris baru untuk **memisahkan antar komentar**.
-* Anda bisa menekan `Enter` untuk membuat baris baru di dalam satu blok komentar untuk memberikan jarak.
-* File ini mendukung penuh karakter **UTF-8**, termasuk emoji 😎.
-
----
-
-### **Langkah 4: Pilih Bot yang Akan Dijalankan (`main.yml`)**
-
-Anda bisa memilih untuk menjalankan bot video atau bot grup.
-
+#### **A. Pilih Bot yang Akan Dijalankan**
 1.  Buka file `.github/workflows/main.yml`.
-2.  Cari bagian **`cron: '0 */6 * * *'`**.
-3.  Ubah baris `/6` sesuai kebutuhan:
-    * '0 */6 * * *': `bot di eksekusi setiap 6 jam sekali`
-    * '0 */2 * * *': `bot di eksekusi setiap 2 jam sekali`
+2.  Klik ikon pensil untuk mengedit.
+3.  Cari bagian **`Run the Bot`** (biasanya di sekitar Langkah 4).
+4.  Ubah baris `run:` sesuai bot yang ingin Anda aktifkan:
+    * Untuk **Bot Komen Video**: `run: npm run start:video`
+    * Untuk **Bot Komen Grup**: `run: npm run start:group`
+    * Untuk **Bot Posting Grup**: `run: npm run start:postgroup`
+5.  Klik **`Commit changes...`** untuk menyimpan.
+
+#### **B. Atur Target & Jeda Waktu**
+* **Jika menjalankan Bot Komen Video:** Buka dan edit file `config/configkomenvideo.json`.
+* **Jika menjalankan Bot Komen Grup:** Buka dan edit file `config/configkomengroup.json`.
+* **Jika menjalankan Bot Posting Grup:** Buka dan edit file `config/configpostgroup.json`.
+
+#### **C. Siapkan Konten & Target**
+* **Untuk Komentar (`comments.txt`):** Isi dengan variasi komentar Anda. Pisahkan setiap komentar dengan `---` pada baris baru.
+* **Untuk Posting (`post_content.txt`):** Isi dengan variasi konten postingan Anda. Pisahkan setiap konten dengan `---`.
+* **Untuk Target Grup (`target_groups.txt`):** Isi dengan URL lengkap grup-grup target Anda, satu URL per baris.
 
 ---
 
-### **Langkah 5: Menjalankan Bot Secara Manual**
+### **Langkah 4: Menjalankan Bot Secara Manual**
 
-Bot akan berjalan otomatis sesuai jadwal yang ditentukan. Namun, Anda bisa menjalankannya secara manual kapan saja.
+Bot akan berjalan otomatis sesuai jadwal. Namun, Anda bisa menjalankannya secara manual kapan saja.
 
 1.  Buka tab **`Actions`** di repository GitHub Anda.
-2.  Di daftar workflow sebelah kiri, klik nama workflow Anda (misalnya, **"Facebook Group Comment Bot"**).
+2.  Di daftar workflow sebelah kiri, klik nama workflow Anda.
 3.  Di sebelah kanan, akan muncul tombol **`Run workflow`**. Klik tombol tersebut, lalu klik tombol hijau **`Run workflow`** lagi untuk memulai.
 
-Bot akan mulai berjalan, dan Anda bisa melihat lognya secara *real-time*.
+Bot akan mulai berjalan, dan Anda bisa melihat lognya secara *real-time*. Selesai!
+
+---
+
+## ⚠️ **DISCLAIMER**
+
+Penggunaan bot untuk mengotomatisasi aktivitas di platform media sosial **melanggar Ketentuan Layanan** mereka. Penggunaan bot ini dapat mengakibatkan pembatasan, pemblokiran sementara, atau bahkan penonaktifan permanen pada akun Facebook Anda.
+
+Kode ini dibuat untuk **tujuan edukasi** mengenai otomatisasi web. **Anda bertanggung jawab penuh atas segala risiko dan konsekuensi** yang timbul dari penggunaan bot ini. Gunakan dengan bijak.
