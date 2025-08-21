@@ -2,5 +2,5 @@
   "headless": true,
   "linkPreviewIntervalSeconds": 10,
   "minIntervalSeconds": 60,
-  "maxIntervalSeconds": 120
+  "maxIntervalSeconds": 3600
 }
